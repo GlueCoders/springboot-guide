@@ -2,14 +2,11 @@
 <Configuration status="WARN">
     <Appenders>
         <Console name="Console" target="SYSTEM_OUT">
-            <JsonLayout compact="true" eventEol="true"/>
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
         </Console>
     </Appenders>
     <Loggers>
         <logger name="org.gluecoders.library" level="debug" additivity="false">
-            <AppenderRef ref="Console"/>
-        </logger>
-        <logger name="org.springframework" level="error" additivity="false">
             <AppenderRef ref="Console"/>
         </logger>
         <Root level="info">

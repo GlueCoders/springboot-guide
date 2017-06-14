@@ -1,22 +1,40 @@
 package org.gluecoders.library.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import java.io.Serializable;
+import java.time.Month;
+import java.time.YearMonth;
 import java.util.Arrays;
 import java.util.List;
 
 /**
  * Created by Anand_Rajneesh on 6/10/2017.
  */
+@Document(collection = "books")
 public class Book implements Serializable {
 
+    @Id @JsonIgnore
+    private String id;
     private String title;
     private String author;
-    private int publishedYear;
+    private YearMonth publishedYear;
     private List<String> categories;
     private String publisher;
     private long isbnCode;
 
+
     public Book() {
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getTitle() {
@@ -59,14 +77,6 @@ public class Book implements Serializable {
         this.isbnCode = isbnCode;
     }
 
-    public int getPublishedYear() {
-        return publishedYear;
-    }
-
-    public void setPublishedYear(int publishedYear) {
-        this.publishedYear = publishedYear;
-    }
-
     @Override
     public boolean equals(Object obj) {
         return obj != null && obj instanceof Book && Long.compare(isbnCode, ((Book) obj).getIsbnCode()) == 0;
@@ -79,6 +89,14 @@ public class Book implements Serializable {
 
     public static Builder builder(){
         return new Builder();
+    }
+
+    public YearMonth getPublishedYear() {
+        return publishedYear;
+    }
+
+    public void setPublishedYear(YearMonth publishedYear) {
+        this.publishedYear = publishedYear;
     }
 
     public static class Builder{
@@ -100,8 +118,8 @@ public class Book implements Serializable {
             return this;
         }
 
-        public Builder yearOfPublishing(int year){
-            book.setPublishedYear(year);
+        public Builder yearOfPublishing(int year, Month month){
+            book.setPublishedYear(YearMonth.of(year, month));
             return this;
         }
 
