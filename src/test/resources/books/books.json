@@ -1,0 +1,35 @@
+{
+  "books":
+  [
+    {
+      "title": "Effective Java",
+      "author": "Joshua Bloch",
+      "publishedYear": {
+        "year": 2011,
+        "month": 8
+      },
+      "categories":
+      [
+        "Programming",
+        "Java"
+      ],
+      "publisher": "noidea",
+      "isbnCode": 1234567890
+    },
+    {
+      "title": "Effective Java 2nd Edition",
+      "author": "Joshua Bloch",
+      "publishedYear": {
+        "year": 2013,
+        "month": 8
+      },
+      "categories":
+      [
+        "Programming",
+        "Java"
+      ],
+      "publisher": "noidea",
+      "isbnCode": 1234567891
+    }
+  ]
+}
