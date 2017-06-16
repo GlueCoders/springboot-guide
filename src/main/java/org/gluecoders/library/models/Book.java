@@ -1,6 +1,9 @@
 package org.gluecoders.library.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import net.sf.oval.constraint.Min;
+import net.sf.oval.constraint.NotEmpty;
+import net.sf.oval.constraint.NotNull;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -18,11 +21,16 @@ public class Book implements Serializable {
 
     @Id @JsonIgnore
     private String id;
+    @NotNull @NotEmpty
     private String title;
+    @NotNull @NotEmpty
     private String author;
+    @NotNull
     private YearMonth publishedYear;
     private List<String> categories;
+    @NotNull @NotEmpty
     private String publisher;
+    @Min(1000000000)
     private long isbnCode;
 
 
@@ -85,6 +93,11 @@ public class Book implements Serializable {
     @Override
     public int hashCode() {
         return Long.hashCode(isbnCode);
+    }
+
+    @Override
+    public String toString() {
+        return String.format("{isbn %s, author %s, title %s ...}",isbnCode, author, title);
     }
 
     public static Builder builder(){

@@ -1,5 +1,7 @@
 package org.gluecoders.library.rest;
 
+import net.sf.oval.ConstraintViolation;
+import net.sf.oval.Validator;
 import org.gluecoders.library.models.Book;
 import org.gluecoders.library.services.BookService;
 import org.slf4j.Logger;
@@ -27,6 +29,9 @@ public class Books {
     @Autowired
     private BookService bookService;
 
+    @Autowired
+    private Validator validator;
+
     @GetMapping
     public ResponseEntity<List<Book>> getAllBooks() {
         LOGGER.info("getAllBooks invoked");
@@ -49,6 +54,11 @@ public class Books {
 
     @PostMapping
     public ResponseEntity<Book> addBook(@RequestBody Book book) {
+        List<ConstraintViolation> violations = validator.validate(book);
+        if(!violations.isEmpty()) {
+            LOGGER.info("violations {} for request payload {}", violations, book);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
         LOGGER.info("addBook invoked for Book {}", book);
         book = bookService.addBook(book);
         return new ResponseEntity<>(book, HttpStatus.CREATED);

@@ -1,6 +1,7 @@
 package org.gluecoders.library.rest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.gluecoders.library.config.Oval;
 import org.gluecoders.library.models.Book;
 import org.gluecoders.library.services.BookService;
 import org.junit.Test;
@@ -8,10 +9,12 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.time.Month;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -25,6 +28,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 @RunWith(SpringRunner.class)
 @WebMvcTest(Books.class)
+@Import({Oval.class})
 public class BooksTest {
 
     @Autowired
@@ -36,18 +40,25 @@ public class BooksTest {
     @Autowired
     private ObjectMapper mapper;
 
-    private final Book effectiveJavaBook = Book.builder().title("Effective Java")
-            .author("Joshua Bloch").categories("Java", "Programming").isbn(1234567890L).build();
+    private final Book effectiveJavaBook = Book.builder().title("Effective Java").yearOfPublishing(2011, Month.AUGUST)
+            .author("Joshua Bloch").categories("Java", "Programming").isbn(1234567890L)
+            .publisher("someone").build();
 
-    private final Book algorithmsBook = Book.builder().title("Algorithms")
-            .author("Robert Sedgewick").categories("Algorithms", "Java").isbn(1234567891L).build();
+    private final Book algorithmsBook = Book.builder().title("Algorithms").yearOfPublishing(2011, Month.AUGUST)
+            .author("Robert Sedgewick").categories("Algorithms", "Java").isbn(1234567891L)
+            .publisher("someone").build();
 
-    private final Book prologBook = Book.builder().title("Learn Prolog Now")
-            .author("Patrick Blackburn").categories("Prolog", "Programming").isbn(1234567892L).build();
+    private final Book prologBook = Book.builder().title("Learn Prolog Now").yearOfPublishing(2011, Month.AUGUST)
+            .author("Patrick Blackburn").categories("Prolog", "Programming").isbn(1234567892L)
+            .publisher("someone").build();
 
-    private final Book scalaBook = Book.builder().title("Scala")
-            .author("Martin Odersky").categories("Scala", "Functional", "Programming").isbn(1234567893L).build();
+    private final Book scalaBook = Book.builder().title("Scala").yearOfPublishing(2011, Month.AUGUST)
+            .author("Martin Odersky").categories("Scala", "Functional", "Programming").isbn(1234567893L)
+            .publisher("someone").build();
 
+    private final Book incompleteBook = Book.builder().title("Scala").yearOfPublishing(2011, Month.AUGUST)
+            .author("Martin Odersky").categories("Scala", "Functional", "Programming").isbn(1234567893L)
+            .build();
 
     private static class Behavior {
         BookService bookService;
@@ -127,6 +138,18 @@ public class BooksTest {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(content().json(bookContent));
         verify(bookService, times(1)).addBook(effectiveJavaBook);
+    }
+
+    @Test
+    public void addBook_MissingParams() throws Exception {
+        Behavior.set(bookService).returnSame();
+        String bookContent = mapper.writeValueAsString(incompleteBook);
+        mvc
+                .perform(post("/books")
+                        .content(bookContent)
+                        .contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(status().isBadRequest());
+        verify(bookService, never()).addBook(incompleteBook);
     }
 
     @Test
