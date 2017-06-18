@@ -21,9 +21,9 @@ public class DefaultBookService implements BookService {
     private BookDao bookDao;
 
     @Override
-    public List<Book> getAllBooks() {
-        LOGGER.info("getAllBooks() invoked");
-        return bookDao.findAll();
+    public List<Book> getAllBooks(List<String> categories, String title, String author, String year) {
+        LOGGER.info("getAllBooks() invoked with search criteria {} , {}, {}, {}", categories, title, author, year);
+        return bookDao.findBooks(categories, title, author, year);
     }
 
     @Override

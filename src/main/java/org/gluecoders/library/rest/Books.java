@@ -33,9 +33,12 @@ public class Books {
     private Validator validator;
 
     @GetMapping
-    public ResponseEntity<List<Book>> getAllBooks() {
-        LOGGER.info("getAllBooks invoked");
-        List<Book> list = bookService.getAllBooks();
+    public ResponseEntity<List<Book>> getAllBooks(@RequestParam(value = "category", required = false) List<String> categories,
+                                                  @RequestParam(value = "title", required = false) String title,
+                                                  @RequestParam(value = "author", required = false) String author,
+                                                  @RequestParam(value = "year", required = false) String year) {
+        LOGGER.info("getAllBooks invoked with search criteria {} , {}, {}, {}", categories, title, author, year);
+        List<Book> list = bookService.getAllBooks(categories, title, author, year);
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
@@ -43,10 +46,10 @@ public class Books {
     public ResponseEntity<Book> getBook(@PathVariable("isbn") long isbnCode) {
         LOGGER.info("getBook invoked for ISBN code {}", isbnCode);
         Book book = bookService.getBookByISBN(isbnCode);
-        if(book == null) {
+        if (book == null) {
             LOGGER.debug("Book not found for ISBN code {}", isbnCode);
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }else{
+        } else {
             LOGGER.debug("Book found for ISBN code {} {}", isbnCode, book);
             return new ResponseEntity<>(book, HttpStatus.OK);
         }
@@ -55,7 +58,7 @@ public class Books {
     @PostMapping
     public ResponseEntity<Book> addBook(@RequestBody Book book) {
         List<ConstraintViolation> violations = validator.validate(book);
-        if(!violations.isEmpty()) {
+        if (!violations.isEmpty()) {
             LOGGER.info("violations {} for request payload {}", violations, book);
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }

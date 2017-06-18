@@ -9,7 +9,7 @@ import java.util.List;
  */
 public interface BookService {
 
-    List<Book> getAllBooks();
+    List<Book> getAllBooks(List<String> categories, String title, String author, String year);
 
     Book addBook(Book book);
 

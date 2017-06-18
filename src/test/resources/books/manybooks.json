@@ -1,0 +1,11 @@
+{
+  "books":[
+    {"title":"Advanced molecular quantum mechanics; an introduction to relativistic quantum mechanics and the quantum theory of radiation","author":"Moss R","publishedYear":{"year":1996,"month":8},"categories":["Physics","Quantum Theory","Science"],"publisher":"Chapman and Hall","isbnCode":9780412104909},
+    {"title":"Advanced quantum mechanics","author":"Schwabl Franz","publishedYear":{"year":1999,"month":11},"categories":["Physics","Quantum Theory","Science"],"publisher":"Springer","isbnCode":3540644784},
+    {"title":"Advanced quantum theory and its applications through Feynman diagrams ","author":"Scardron Michael","publishedYear":{"year":1996,"month":11},"categories":["Physics","Quantum Theory","Science"],"publisher":"Springer Verland","isbnCode":3540536817},
+    {"title":"An anatomy of risks","author":"William Briam","publishedYear":{"year":1990,"month":11},"categories":["Technology"],"publisher":"Wiley","isbnCode":9780471019947},
+    {"title":"Advanced Java 2 Platform: how to program","author":"Dietel Harvey","publishedYear":{"year":2000,"month":11},"categories":["Java","Programming"],"publisher":"Prentice Hall","isbnCode":9780130622167},
+    {"title":"XML and Java: developing Web applications","author":"Maryurama Hiroshi","publishedYear":{"year":2001,"month":11},"categories":["Java","Programming"],"publisher":"Addison Wesley","isbnCode":9780201770049},
+    {"title":"Java from beginning","author":"Skansholm Jan","publishedYear":{"year":2001,"month":9},"categories":["Java","Programming"],"publisher":"Addison Wesley","isbnCode":9780321154163}
+  ]
+}

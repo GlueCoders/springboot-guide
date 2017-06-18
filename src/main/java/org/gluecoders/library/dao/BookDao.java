@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
  * Created by Anand_Rajneesh on 6/14/2017.
  */
 @Repository
-public interface BookDao extends MongoRepository<Book, String> {
+public interface BookDao extends MongoRepository<Book, String>, BookDaoCustom {
 
     Book findDistinctByIsbnCode(long isbnCode);
 }

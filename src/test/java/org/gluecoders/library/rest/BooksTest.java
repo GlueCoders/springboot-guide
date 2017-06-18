@@ -70,7 +70,7 @@ public class BooksTest {
         }
 
         public Behavior hasNoBooks() {
-            when(bookService.getAllBooks()).thenReturn(Collections.emptyList());
+            when(bookService.getAllBooks(any(), any(), any(), any())).thenReturn(Collections.emptyList());
             when(bookService.getBookByISBN(anyLong())).thenReturn(null);
             return this;
         }
@@ -81,7 +81,7 @@ public class BooksTest {
         }
 
         public Behavior returnBooks(Book... books) {
-            when(bookService.getAllBooks()).thenReturn(Arrays.asList(books));
+            when(bookService.getAllBooks(any(), any(), any(), any())).thenReturn(Arrays.asList(books));
             for (Book book : books) {
                 when(bookService.getBookByISBN(book.getIsbnCode())).thenReturn(book);
                 when(bookService.addBook(book)).thenReturn(book);
@@ -98,7 +98,24 @@ public class BooksTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(content().json("[]"));
-        verify(bookService, times(1)).getAllBooks();
+        verify(bookService, times(1)).getAllBooks(any(), any(), any(), any());
+    }
+
+    @Test
+    public void getAllBooks_QueryParams() throws Exception {
+        Behavior.set(bookService).hasNoBooks();
+        mvc
+                .perform(get("/books")
+                        .param("author", "Joshua")
+                        .param("title", "Java")
+                        .param("category", "Technology")
+                        .param("category", "Java")
+                        .param("category", "Programming")
+                        .param("year", "2001"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(content().json("[]"));
+        verify(bookService, times(1)).getAllBooks(Arrays.asList("Technology", "Java", "Programming"), "Java", "Joshua", "2001");
     }
 
     @Test
@@ -110,7 +127,7 @@ public class BooksTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(content().json(String.format("[%s]", bookContent)));
-        verify(bookService, times(1)).getAllBooks();
+        verify(bookService, times(1)).getAllBooks(any(), any(), any(), any());
     }
 
     @Test
@@ -123,7 +140,7 @@ public class BooksTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(content().json(booksContent));
-        verify(bookService, times(1)).getAllBooks();
+        verify(bookService, times(1)).getAllBooks(any(), any(), any(), any());
     }
 
     @Test
