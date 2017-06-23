@@ -14,6 +14,6 @@ public class OvalTest {
 
     @Test
     public void testValidator(){
-        assertNotNull(new Oval().validator());
+        assertNotNull(new Oval().ovalValidator());
     }
 }

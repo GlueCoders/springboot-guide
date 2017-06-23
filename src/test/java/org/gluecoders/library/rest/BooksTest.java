@@ -3,6 +3,7 @@ package org.gluecoders.library.rest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.gluecoders.library.config.Oval;
 import org.gluecoders.library.models.Book;
+import org.gluecoders.library.rest.helper.Validator;
 import org.gluecoders.library.services.BookService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -28,7 +29,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 @RunWith(SpringRunner.class)
 @WebMvcTest(Books.class)
-@Import({Oval.class})
+@Import({Oval.class, Validator.class})
 public class BooksTest {
 
     @Autowired

@@ -11,8 +11,7 @@ import org.springframework.context.annotation.Configuration;
 public class Oval {
 
     @Bean
-    public Validator validator(){
+    public Validator ovalValidator(){
         return new Validator();
     }
-
 }

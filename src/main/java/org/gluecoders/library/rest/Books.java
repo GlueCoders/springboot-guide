@@ -1,20 +1,17 @@
 package org.gluecoders.library.rest;
 
-import net.sf.oval.ConstraintViolation;
-import net.sf.oval.Validator;
+import org.gluecoders.library.exceptions.ValidationException;
 import org.gluecoders.library.models.Book;
+import org.gluecoders.library.rest.helper.Validator;
 import org.gluecoders.library.services.BookService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.slf4j.Marker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.Month;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -56,12 +53,8 @@ public class Books {
     }
 
     @PostMapping
-    public ResponseEntity<Book> addBook(@RequestBody Book book) {
-        List<ConstraintViolation> violations = validator.validate(book);
-        if (!violations.isEmpty()) {
-            LOGGER.info("violations {} for request payload {}", violations, book);
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+    public ResponseEntity<Book> addBook(@RequestBody Book book) throws ValidationException {
+        validator.validate(book, ValidationException::of);
         LOGGER.info("addBook invoked for Book {}", book);
         book = bookService.addBook(book);
         return new ResponseEntity<>(book, HttpStatus.CREATED);
