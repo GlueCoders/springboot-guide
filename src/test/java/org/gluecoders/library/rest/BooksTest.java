@@ -5,6 +5,7 @@ import org.gluecoders.library.config.Oval;
 import org.gluecoders.library.models.Book;
 import org.gluecoders.library.rest.helper.Validator;
 import org.gluecoders.library.services.BookService;
+import org.gluecoders.library.testHelpers.rest.MvcBootstrap;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithAnonymousUser;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -29,7 +32,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 @RunWith(SpringRunner.class)
 @WebMvcTest(Books.class)
-@Import({Oval.class, Validator.class})
+@Import({MvcBootstrap.class})
+@WithAnonymousUser
 public class BooksTest {
 
     @Autowired
@@ -92,6 +96,16 @@ public class BooksTest {
     }
 
     @Test
+    public void getAllBooks_Unauthenticated() throws Exception {
+        Behavior.set(bookService).hasNoBooks();
+        mvc
+                .perform(get("/books"))
+                .andExpect(status().isUnauthorized());
+        verify(bookService, times(0)).getAllBooks(any(), any(), any(), any());
+    }
+
+    @Test
+    @WithMockUser
     public void getAllBooks_NoBooks() throws Exception {
         Behavior.set(bookService).hasNoBooks();
         mvc
@@ -103,6 +117,7 @@ public class BooksTest {
     }
 
     @Test
+    @WithMockUser
     public void getAllBooks_QueryParams() throws Exception {
         Behavior.set(bookService).hasNoBooks();
         mvc
@@ -120,6 +135,7 @@ public class BooksTest {
     }
 
     @Test
+    @WithMockUser
     public void getAllBooks_AtLeastOneBook() throws Exception {
         Behavior.set(bookService).returnBooks(effectiveJavaBook);
         String bookContent = mapper.writeValueAsString(effectiveJavaBook);
@@ -132,6 +148,7 @@ public class BooksTest {
     }
 
     @Test
+    @WithMockUser
     public void getAllBooks_MoreThanOneBook() throws Exception {
         Behavior.set(bookService).returnBooks(effectiveJavaBook, scalaBook, prologBook, algorithmsBook);
         List<Book> books = Arrays.asList(effectiveJavaBook, scalaBook, prologBook, algorithmsBook);
@@ -171,6 +188,7 @@ public class BooksTest {
     }
 
     @Test
+    @WithMockUser
     public void getBook_Positive() throws Exception {
         Behavior.set(bookService).returnBooks(effectiveJavaBook);
         String bookContent = mapper.writeValueAsString(effectiveJavaBook);
@@ -183,6 +201,7 @@ public class BooksTest {
     }
 
     @Test
+    @WithMockUser
     public void getBook_NoBookFound() throws Exception {
         Behavior.set(bookService).hasNoBooks();
         mvc

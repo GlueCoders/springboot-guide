@@ -7,6 +7,7 @@ import java.util.function.IntSupplier;
  */
 public enum StatusCode implements IntSupplier{
     BAD_REQUEST(400),
+    CONFLICT(409),
     INTERNAL_SERVER_ERROR(500);
 
     @Override

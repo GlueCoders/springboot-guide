@@ -1,4 +1,4 @@
-package org.gluecoders.library.dao.config;
+package org.gluecoders.library.testHelpers.dao;
 
 import com.github.fakemongo.Fongo;
 import com.mongodb.MongoClient;

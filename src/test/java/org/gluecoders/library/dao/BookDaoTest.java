@@ -5,7 +5,7 @@ import com.lordofthejars.nosqlunit.annotation.UsingDataSet;
 import com.lordofthejars.nosqlunit.core.LoadStrategyEnum;
 import com.lordofthejars.nosqlunit.mongodb.MongoDbRule;
 import org.gluecoders.library.config.Database;
-import org.gluecoders.library.dao.config.FakeMongo;
+import org.gluecoders.library.testHelpers.dao.FakeMongo;
 import org.gluecoders.library.models.Book;
 import org.junit.Ignore;
 import org.junit.Rule;
