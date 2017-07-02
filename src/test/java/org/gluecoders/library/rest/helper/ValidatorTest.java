@@ -12,6 +12,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import java.util.Collections;
 
 import static org.mockito.Mockito.*;
+
 /**
  * Created by Anand_Rajneesh on 6/23/2017.
  */
@@ -24,21 +25,62 @@ public class ValidatorTest {
     @InjectMocks
     private Validator testObject;
 
+    private static class Behavior {
+        private net.sf.oval.Validator validator;
+
+        public static Behavior set(net.sf.oval.Validator validator) {
+            Behavior b = new Behavior();
+            b.validator = validator;
+            return b;
+        }
+
+        public Behavior failOnValidation() {
+            when(validator.validate(any())).thenReturn(Collections.singletonList(new ConstraintViolation(new AssertCheck(), null, null, null, null)));
+            return this;
+        }
+
+        public Behavior passOnValidation() {
+            when(validator.validate(any())).thenReturn(Collections.emptyList());
+            return this;
+        }
+    }
+
     @Test
-    public void testValidate_ValidObject() throws ValidationException {
-        when(validator.validate(any())).thenReturn(Collections.emptyList());
+    public void testOverloadedValidate_ValidObject() throws ValidationException {
+        Behavior.set(validator).passOnValidation();
         Object o = new Object();
         testObject.validate(o, ValidationException::of);
         verify(validator, times(1)).validate(o);
     }
 
     @Test(expected = ValidationException.class)
-    public void testValidate_InvalidObject() throws ValidationException{
-        when(validator.validate(any())).thenReturn(Collections.singletonList(new ConstraintViolation(new AssertCheck(),null,null,null,null)));
+    public void testOverloadedValidate_InvalidObject() throws ValidationException {
+        Behavior.set(validator).failOnValidation();
         Object o = new Object();
-        try{
+        try {
             testObject.validate(o, ValidationException::of);
-        }catch (ValidationException e){
+        } catch (ValidationException e) {
+            verify(validator, times(1)).validate(o);
+            throw e;
+        }
+    }
+
+
+    @Test
+    public void testValidate_ValidObject() throws ValidationException {
+        Behavior.set(validator).passOnValidation();
+        Object o = new Object();
+        testObject.validate(o);
+        verify(validator, times(1)).validate(o);
+    }
+
+    @Test(expected = ValidationException.class)
+    public void testValidate_InvalidObject() throws ValidationException {
+        Behavior.set(validator).failOnValidation();
+        Object o = new Object();
+        try {
+            testObject.validate(o);
+        } catch (ValidationException e) {
             verify(validator, times(1)).validate(o);
             throw e;
         }

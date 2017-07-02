@@ -2,6 +2,7 @@ package org.gluecoders.library.rest.helper;
 
 import net.sf.oval.ConstraintViolation;
 import org.gluecoders.library.exceptions.ResourceException;
+import org.gluecoders.library.exceptions.ValidationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,10 @@ public final class Validator {
             LOGGER.error("{} has {} validation errors", t, violations.size());
             throw exceptionSupplier.apply(violations);
         }
+    }
+
+    public <T> void validate(T t) throws ValidationException{
+        validate(t, ValidationException::of);
     }
 
 }
