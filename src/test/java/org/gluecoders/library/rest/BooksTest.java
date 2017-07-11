@@ -1,9 +1,7 @@
 package org.gluecoders.library.rest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.gluecoders.library.config.Oval;
 import org.gluecoders.library.models.Book;
-import org.gluecoders.library.rest.helper.Validator;
 import org.gluecoders.library.services.BookService;
 import org.gluecoders.library.testHelpers.rest.MvcBootstrap;
 import org.junit.Test;

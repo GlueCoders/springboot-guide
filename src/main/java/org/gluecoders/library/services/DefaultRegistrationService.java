@@ -11,6 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.time.Instant;
+import java.util.List;
+
 /**
  * Created by Anand_Rajneesh on 7/1/2017.
  */
@@ -37,6 +40,7 @@ public class DefaultRegistrationService implements  RegistrationService {
         if(existingRecord == null) {
             credentials.setSaltedPwd(passwordEncoder.encode(credentials.getPwd()));
             credentials.setRole("USER");
+            credentials.setCreatedOn(Instant.now());
             credentialsDao.save(credentials);
             Member member = new Member();
             member.setEmail(credentials.getUsername());

@@ -7,6 +7,8 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.time.Instant;
+
 /**
  * Created by Anand_Rajneesh on 7/1/2017.
  */
@@ -24,6 +26,8 @@ public class Credentials {
     private String role;
     @JsonIgnore
     private String saltedPwd;
+    //@JsonIgnore
+    private Instant createdOn;
 
     public String getUsername() {
         return username;
@@ -68,5 +72,13 @@ public class Credentials {
     @Override
     public String toString() {
         return "{\"username\":\""+username+"\"}";
+    }
+
+    public Instant getCreatedOn() {
+        return createdOn;
+    }
+
+    public void setCreatedOn(Instant createdOn) {
+        this.createdOn = createdOn;
     }
 }
