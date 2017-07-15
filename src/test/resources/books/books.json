@@ -14,7 +14,7 @@
         "Java"
       ],
       "publisher": "noidea",
-      "isbnCode": 1234567890
+      "isbnCode": "123456789000"
     },
     {
       "title": "Effective Java 2nd Edition",
@@ -29,7 +29,7 @@
         "Java"
       ],
       "publisher": "noidea",
-      "isbnCode": 1234567891
+      "isbnCode": "123456789100"
     }
   ]
 }

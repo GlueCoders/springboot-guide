@@ -44,23 +44,23 @@ public class BooksTest {
     private ObjectMapper mapper;
 
     private final Book effectiveJavaBook = Book.builder().title("Effective Java").yearOfPublishing(2011, Month.AUGUST)
-            .author("Joshua Bloch").categories("Java", "Programming").isbn(1234567890L)
+            .author("Joshua Bloch").categories("Java", "Programming").isbn("1234567890000")
             .publisher("someone").build();
 
     private final Book algorithmsBook = Book.builder().title("Algorithms").yearOfPublishing(2011, Month.AUGUST)
-            .author("Robert Sedgewick").categories("Algorithms", "Java").isbn(1234567891L)
+            .author("Robert Sedgewick").categories("Algorithms", "Java").isbn("1234567891000")
             .publisher("someone").build();
 
     private final Book prologBook = Book.builder().title("Learn Prolog Now").yearOfPublishing(2011, Month.AUGUST)
-            .author("Patrick Blackburn").categories("Prolog", "Programming").isbn(1234567892L)
+            .author("Patrick Blackburn").categories("Prolog", "Programming").isbn("1234567892000")
             .publisher("someone").build();
 
     private final Book scalaBook = Book.builder().title("Scala").yearOfPublishing(2011, Month.AUGUST)
-            .author("Martin Odersky").categories("Scala", "Functional", "Programming").isbn(1234567893L)
+            .author("Martin Odersky").categories("Scala", "Functional", "Programming").isbn("1234567893000")
             .publisher("someone").build();
 
-    private final Book incompleteBook = Book.builder().title("Scala").yearOfPublishing(2011, Month.AUGUST)
-            .author("Martin Odersky").categories("Scala", "Functional", "Programming").isbn(1234567893L)
+    private final Book incompleteBook_NoPublisher = Book.builder().title("Scala").yearOfPublishing(2011, Month.AUGUST)
+            .author("Martin Odersky").categories("Scala", "Functional", "Programming").isbn("1234567893000")
             .build();
 
     private static class Behavior {
@@ -74,7 +74,7 @@ public class BooksTest {
 
         public Behavior hasNoBooks() {
             when(bookService.getAllBooks(any(), any(), any(), any())).thenReturn(Collections.emptyList());
-            when(bookService.getBookByISBN(anyLong())).thenReturn(null);
+            when(bookService.getBookByISBN(anyString())).thenReturn(null);
             return this;
         }
 
@@ -176,13 +176,13 @@ public class BooksTest {
     @Test
     public void addBook_MissingParams() throws Exception {
         Behavior.set(bookService).returnSame();
-        String bookContent = mapper.writeValueAsString(incompleteBook);
+        String bookContent = mapper.writeValueAsString(incompleteBook_NoPublisher);
         mvc
                 .perform(post("/books")
                         .content(bookContent)
                         .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().isBadRequest());
-        verify(bookService, never()).addBook(incompleteBook);
+        verify(bookService, never()).addBook(incompleteBook_NoPublisher);
     }
 
     @Test
@@ -203,16 +203,16 @@ public class BooksTest {
     public void getBook_NoBookFound() throws Exception {
         Behavior.set(bookService).hasNoBooks();
         mvc
-                .perform(get("/books/1234567899"))
+                .perform(get("/books/1234567899000"))
                 .andExpect(status().isNotFound());
-        verify(bookService, times(1)).getBookByISBN(anyLong());
+        verify(bookService, times(1)).getBookByISBN(anyString());
     }
 
     @Test
     public void deleteBook() throws Exception {
         mvc
-                .perform(delete("/books/1234567899"))
+                .perform(delete("/books/1234567899000"))
                 .andExpect(status().isOk());
-        verify(bookService, times(1)).deleteBook(anyLong());
+        verify(bookService, times(1)).deleteBook(anyString());
     }
 }

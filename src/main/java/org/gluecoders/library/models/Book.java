@@ -1,6 +1,7 @@
 package org.gluecoders.library.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import net.sf.oval.constraint.Length;
 import net.sf.oval.constraint.Min;
 import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
@@ -30,8 +31,9 @@ public class Book implements Serializable {
     private List<String> categories;
     @NotNull @NotEmpty
     private String publisher;
-    @Min(1000000000)
-    private long isbnCode;
+    @NotNull
+    @Length(min = 13, max = 13)
+    private String isbnCode;
 
 
     public Book() {
@@ -77,22 +79,22 @@ public class Book implements Serializable {
         this.publisher = publisher;
     }
 
-    public long getIsbnCode() {
+    public String getIsbnCode() {
         return isbnCode;
     }
 
-    public void setIsbnCode(long isbnCode) {
+    public void setIsbnCode(String isbnCode) {
         this.isbnCode = isbnCode;
     }
 
     @Override
     public boolean equals(Object obj) {
-        return obj != null && obj instanceof Book && Long.compare(isbnCode, ((Book) obj).getIsbnCode()) == 0;
+        return obj != null && obj instanceof Book && isbnCode.equals(((Book) obj).isbnCode);
     }
 
     @Override
     public int hashCode() {
-        return Long.hashCode(isbnCode);
+        return isbnCode.hashCode();
     }
 
     @Override
@@ -126,7 +128,7 @@ public class Book implements Serializable {
             return this;
         }
 
-        public Builder isbn(long isbnCode){
+        public Builder isbn(String isbnCode){
             book.setIsbnCode(isbnCode);
             return this;
         }

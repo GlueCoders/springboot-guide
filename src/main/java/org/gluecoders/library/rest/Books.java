@@ -40,7 +40,7 @@ public class Books {
     }
 
     @GetMapping("/{isbn}")
-    public ResponseEntity<Book> getBook(@PathVariable("isbn") long isbnCode) {
+    public ResponseEntity<Book> getBook(@PathVariable("isbn") String isbnCode) {
         LOGGER.info("getBook invoked for ISBN code {}", isbnCode);
         Book book = bookService.getBookByISBN(isbnCode);
         if (book == null) {
@@ -61,7 +61,7 @@ public class Books {
     }
 
     @DeleteMapping("/{isbn}")
-    public ResponseEntity deleteBook(@PathVariable("isbn") long isbnCode) {
+    public ResponseEntity deleteBook(@PathVariable("isbn") String isbnCode) {
         LOGGER.info("deleteBook invoked for ISBN Code {}", isbnCode);
         bookService.deleteBook(isbnCode);
         return new ResponseEntity(HttpStatus.OK);

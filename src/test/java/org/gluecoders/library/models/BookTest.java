@@ -30,7 +30,7 @@ public class BookTest {
         book = Book.builder()
                 .author("Joshua Bloch")
                 .categories("Programming", "Java")
-                .isbn(1234567890L)
+                .isbn("1234567890000")
                 .publisher("noidea")
                 .yearOfPublishing(2011, Month.AUGUST)
                 .title("Effective Java")
@@ -44,7 +44,7 @@ public class BookTest {
     @Test
     public void testBuilder(){
         assertEquals("Joshua Bloch", book.getAuthor());
-        assertEquals(1234567890L, book.getIsbnCode());
+        assertEquals("1234567890000", book.getIsbnCode());
         assertEquals("noidea", book.getPublisher());
         assertEquals("Effective Java", book.getTitle());
         assertEquals(YearMonth.of(2011, Month.AUGUST), book.getPublishedYear());
@@ -78,7 +78,13 @@ public class BookTest {
 
     @Test
     public void testMissingIsbnCode(){
-        book.setIsbnCode(0);
+        book.setIsbnCode(null);
+        assertValidation(book);
+    }
+
+    @Test
+    public void testEmptyIsbnCode(){
+        book.setIsbnCode("");
         assertValidation(book);
     }
 

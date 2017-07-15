@@ -33,13 +33,13 @@ public class DefaultBookService implements BookService {
     }
 
     @Override
-    public Book getBookByISBN(long isbn) {
+    public Book getBookByISBN(String isbn) {
         LOGGER.info("Get Book by ISBN {}", isbn);
         return bookDao.findDistinctByIsbnCode(isbn);
     }
 
     @Override
-    public void deleteBook(long isbn) {
+    public void deleteBook(String isbn) {
         LOGGER.info("Delete book by isbn {}",isbn);
         Book book = bookDao.findDistinctByIsbnCode(isbn);
         if(book != null) {

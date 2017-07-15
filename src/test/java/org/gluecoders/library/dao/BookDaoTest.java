@@ -62,7 +62,7 @@ public class BookDaoTest {
     @Test
     @UsingDataSet(loadStrategy = LoadStrategyEnum.CLEAN_INSERT, locations = "/books/books.json")
     public void findDistinctByIsbnCode_IsbnAvailable(){
-        Book book = bookDao.findDistinctByIsbnCode(1234567890L);
+        Book book = bookDao.findDistinctByIsbnCode("123456789000");
         assertNotNull("Book should be returned for 1234567890isbn ", book);
     }
 
@@ -70,7 +70,7 @@ public class BookDaoTest {
     @Test
     @UsingDataSet(loadStrategy = LoadStrategyEnum.CLEAN_INSERT, locations = "/books/books.json")
     public void findDistinctByIsbnCode_IsbnNotAvailable(){
-        Book book = bookDao.findDistinctByIsbnCode(1234567892L);
+        Book book = bookDao.findDistinctByIsbnCode("123456789200");
         assertNull("No book should be returned for 1234567892 isbn ", book);
     }
 
@@ -78,7 +78,7 @@ public class BookDaoTest {
     @Test
     @UsingDataSet(loadStrategy = LoadStrategyEnum.DELETE_ALL)
     public void findDistinctByIsbnCode_NoDataAvailable(){
-        Book book = bookDao.findDistinctByIsbnCode(1234567890L);
+        Book book = bookDao.findDistinctByIsbnCode("123456789000");
         assertNull("No Book should be returned since there is no data present ", book);
     }
 
@@ -89,7 +89,7 @@ public class BookDaoTest {
         Book book = Book.builder()
                 .author("Joshua Bloch")
                 .categories("Programming", "Java")
-                .isbn(1234567890L)
+                .isbn("123456789000")
                 .publisher("noidea")
                 .yearOfPublishing(2011, Month.AUGUST)
                 .title("Effective Java")
@@ -100,14 +100,14 @@ public class BookDaoTest {
     @Test
     @UsingDataSet(loadStrategy = LoadStrategyEnum.CLEAN_INSERT, locations = "/books/books.json")
     public void deleteBook_WithId(){
-        Book book = bookDao.findDistinctByIsbnCode(1234567890L);
+        Book book = bookDao.findDistinctByIsbnCode("123456789000");
         bookDao.delete(book);
     }
 
     @Test(expected = IllegalArgumentException.class)
     @UsingDataSet(loadStrategy = LoadStrategyEnum.CLEAN_INSERT, locations = "/books/books.json")
     public void deleteBook_WithoutId(){
-        Book book = bookDao.findDistinctByIsbnCode(1234567890L);
+        Book book = bookDao.findDistinctByIsbnCode("123456789000");
         book.setId(null);
         bookDao.delete(book);
     }
@@ -115,7 +115,7 @@ public class BookDaoTest {
     @Test
     @UsingDataSet(loadStrategy = LoadStrategyEnum.CLEAN_INSERT, locations = "/books/books.json")
     public void deleteBook_IdNotPresent(){
-        Book book = bookDao.findDistinctByIsbnCode(1234567890L);
+        Book book = bookDao.findDistinctByIsbnCode("123456789000");
         book.setId("12323543453412");
         bookDao.delete(book);
     }
@@ -132,7 +132,7 @@ public class BookDaoTest {
     public void findBooks_BooksAvailableMatchingCategory1(){
         List<Book> books = FindTester.test(bookDao).category("Technology").get();
         assertTrue(books.size() == 1);
-        assertTrue(books.get(0).getIsbnCode() == 9780471019947L);
+        assertTrue(books.get(0).getIsbnCode().equals("978047101994700"));
     }
 
     @Test
@@ -154,7 +154,7 @@ public class BookDaoTest {
     public void findBooks_BooksAvailableMatchingAuthor(){
         List<Book> books = FindTester.test(bookDao).author("Moss").get();
         assertTrue(books.size() == 1);
-        assertTrue(books.get(0).getIsbnCode() == 9780412104909L);
+        assertTrue(books.get(0).getIsbnCode().equals("978041210490900"));
     }
 
     @Test @Ignore

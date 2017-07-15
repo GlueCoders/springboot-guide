@@ -13,7 +13,7 @@ public interface BookService {
 
     Book addBook(Book book);
 
-    Book getBookByISBN(long isbn);
+    Book getBookByISBN(String isbn);
 
-    void deleteBook(long isbn);
+    void deleteBook(String isbn);
 }
