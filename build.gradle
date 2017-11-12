@@ -1,0 +1,38 @@
+plugins {
+    id 'java'
+    id 'maven'
+    id 'org.springframework.boot' version '1.5.8.RELEASE'
+}
+
+group = 'org.gluecoders.guides'
+version = '1.0-SNAPSHOT'
+
+description = """"""
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+tasks.withType(JavaCompile) {
+	options.encoding = 'UTF-8'
+}
+
+repositories {
+     mavenCentral()
+}
+
+dependencies {
+    compile 'org.springframework.boot:spring-boot-starter-web'
+    compile 'org.springframework.boot:spring-boot-starter-test'
+    compile('org.springframework.boot:spring-boot-starter') {
+            exclude(module: 'spring-boot-starter-logging')
+    }
+    compile 'org.springframework.boot:spring-boot-starter-log4j2'
+    compile 'org.springframework.boot:spring-boot-starter-security'
+    compile 'org.springframework.boot:spring-boot-starter-data-mongodb'
+    compile 'io.springfox:springfox-swagger2:2.7.0'
+    compile 'io.springfox:springfox-swagger-ui:2.7.0'
+    compile 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.8.6'
+    compile 'net.sf.oval:oval:1.87'
+    testCompile 'org.springframework.security:spring-security-test:4.2.3.RELEASE'
+    testCompile 'com.github.fakemongo:fongo:2.1.0'
+    testCompile 'com.lordofthejars:nosqlunit-mongodb:0.7.6'
+}
