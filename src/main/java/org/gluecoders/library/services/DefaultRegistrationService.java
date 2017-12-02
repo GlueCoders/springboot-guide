@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * Created by Anand_Rajneesh on 7/1/2017.
  */
-@Component
+@Component("defaultRegistrationService")
 public class DefaultRegistrationService implements  RegistrationService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultRegistrationService.class);

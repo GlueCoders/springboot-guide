@@ -32,7 +32,7 @@ public class RegistrationTest {
     @Autowired
     private MockMvc mvc;
 
-    @MockBean
+    @MockBean(name = "registrationService")
     private RegistrationService registrationService;
 
     @Autowired
