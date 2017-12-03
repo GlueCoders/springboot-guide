@@ -10,6 +10,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.util.List;
@@ -34,6 +36,7 @@ public class DefaultRegistrationService implements  RegistrationService {
     }
 
     @Override
+    @Transactional
     public Member register(Credentials credentials) throws ResourceAlreadyExistsException {
         LOGGER.info("Registering {} in library system", credentials);
         Credentials existingRecord = credentialsDao.findDistinctByUsername(credentials.getUsername());
@@ -42,6 +45,7 @@ public class DefaultRegistrationService implements  RegistrationService {
             credentials.setRole("USER");
             credentials.setCreatedOn(Instant.now());
             credentialsDao.save(credentials);
+            LOGGER.info("credentials saved {}", credentials.getId());
             Member member = new Member();
             member.setEmail(credentials.getUsername());
             memberDao.save(member);

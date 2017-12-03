@@ -9,6 +9,6 @@ import java.util.List;
  */
 public interface BookDaoCustom {
 
-    public List<Book> findBooks(List<String> categories, String author, String title, String publishedYear);
+    List<Book> findBooks(List<String> categories, String author, String title, String publishedYear);
 
 }

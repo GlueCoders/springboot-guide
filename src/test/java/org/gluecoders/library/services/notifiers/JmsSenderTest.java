@@ -13,8 +13,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import javax.jms.Message;
-
 /**
  * Created by Anand Rajneesh on 12/3/2017.
  */

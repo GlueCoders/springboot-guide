@@ -1,26 +1,28 @@
 package org.gluecoders.library.models;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import java.time.LocalDate;
 import java.util.List;
 
 /**
  * Created by Anand_Rajneesh on 6/10/2017.
  */
-@Document(collection = "members")
+@Entity
 public class Member {
 
     @Id
+    @GeneratedValue
     private String id;
     private String firstName;
     private String lastName;
     private Long mobile;
     private String email;
     private LocalDate dob;
-    private Address address;
-    private List<IssuedBook> issuedBooks;
+    //private Address address;
+    //private List<IssuedBook> issuedBooks;
 
     public Member() {
     }
@@ -49,22 +51,22 @@ public class Member {
         this.dob = dob;
     }
 
-    public Address getAddress() {
+    /*public Address getAddress() {
         return address;
     }
 
     public void setAddress(Address address) {
         this.address = address;
     }
-
-    public List<IssuedBook> getIssuedBooks() {
+*/
+    /*public List<IssuedBook> getIssuedBooks() {
         return issuedBooks;
     }
 
     public void setIssuedBooks(List<IssuedBook> issuedBooks) {
         this.issuedBooks = issuedBooks;
     }
-
+*/
     public String getFirstName() {
         return firstName;
     }

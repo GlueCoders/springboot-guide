@@ -2,12 +2,10 @@ package org.gluecoders.library.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import net.sf.oval.constraint.Length;
-import net.sf.oval.constraint.Min;
 import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.time.Month;
 import java.time.YearMonth;
@@ -17,17 +15,20 @@ import java.util.List;
 /**
  * Created by Anand_Rajneesh on 6/10/2017.
  */
-@Document(collection = "books")
+@Entity
 public class Book implements Serializable {
 
-    @Id @JsonIgnore
-    private String id;
+    @Id
+    @JsonIgnore
+    @GeneratedValue
+    private long id;
     @NotNull @NotEmpty
     private String title;
     @NotNull @NotEmpty
     private String author;
     @NotNull
     private YearMonth publishedYear;
+    @ElementCollection
     private List<String> categories;
     @NotNull @NotEmpty
     private String publisher;
@@ -39,11 +40,11 @@ public class Book implements Serializable {
     public Book() {
     }
 
-    public String getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(long id) {
         this.id = id;
     }
 

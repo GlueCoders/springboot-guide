@@ -3,21 +3,23 @@ package org.gluecoders.library.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
-import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
-import org.springframework.data.mongodb.core.mapping.Document;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import java.time.Instant;
 
 /**
  * Created by Anand_Rajneesh on 7/1/2017.
  */
-@Document(collection = "creds")
+@Entity
 public class Credentials {
 
     @Id
+    @GeneratedValue
     @JsonIgnore
-    private String id;
+    private long id;
     @NotNull @NotEmpty
     private String username;
     @Transient @NotNull @NotEmpty
@@ -53,11 +55,11 @@ public class Credentials {
         this.saltedPwd = saltedPwd;
     }
 
-    public String getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(long id) {
         this.id = id;
     }
 

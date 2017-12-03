@@ -19,7 +19,7 @@ import java.util.Optional;
 /**
  * Created by Anand_Rajneesh on 7/1/2017.
  */
-@EnableWebSecurity(debug = true)
+@EnableWebSecurity(debug = false)
 public class SpringSecurityAdapter extends WebSecurityConfigurerAdapter {
 
     @Autowired
